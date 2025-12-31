@@ -8,7 +8,7 @@ def isMotion():
     else:
         return True
 
-while True:
-    motion = isMotion()
-    print("Motion Detected: ", motion)
-    time.sleep(1)  
+#while True:
+ #   motion = isMotion()
+  #  print("Motion Detected: ", motion)
+   # time.sleep(1)  

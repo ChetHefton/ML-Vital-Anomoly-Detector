@@ -1,11 +1,15 @@
 import random
 import time
 
-def ox():
-    oxlvl = random.randint(95,100)
-    return oxlvl
+currOx = round(random.uniform(95.0, 100.0), 1)
 
-while True:
-    oxlvl = ox()
-    print("SpO2: ", oxlvl, "%")
-    time.sleep(1)
+def updateOx(ox):
+    change = random.uniform(-0.1, 0.1)
+    ox += change
+    ox = round(ox, 1)
+    return max(90.0, min(ox, 100.0))
+
+#while True:
+  #  currOx = updateOx(currOx)
+   # print(f"SpO₂: {currOx:.1f}%")
+    #time.sleep(1)

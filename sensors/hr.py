@@ -1,11 +1,14 @@
 import random
 import time
 
-def heart_rate():
-	return random.randint(50,150)
+currHR = random.randint(60, 100)
 
-while True:
-	bpm = heart_rate()
-	print(bpm)
-	time.sleep(1)
+def updateHR(hr):
+    change = random.choice([0, 0, -1, 1, -2, 2])
+    hr += change
+    return max(40, min(hr, 180))
 
+#while True:
+ #   currHR = updateHR(currHR)
+  #  print(f"HR: {currHR} bpm")
+   # time.sleep(1)
