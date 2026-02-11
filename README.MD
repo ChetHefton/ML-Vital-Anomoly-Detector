@@ -23,14 +23,14 @@ The long-term goal is to integrate anonymized real-world data and apply machine 
 
 ## Project Structure
 
-core/ System orchestration
-data/ Simulated data generation
-processing/ Data processing pipeline
-sensors/ Sensor abstraction layer (fake sensors for now)
-state/ Application state management
-tests/ Unit and functional tests
-ui/ Console-based output
-utils/ Shared utilities
+- core/ System orchestration
+- data/ Simulated data generation
+- processing/ Data processing pipeline
+- sensors/ Sensor abstraction layer (fake sensors for now)
+- state/ Application state management
+- tests/ Unit and functional tests
+- ui/ Console-based output
+- utils/ Shared utilities
 
 
 ### Entry Points
@@ -107,5 +107,6 @@ This project is intended as a foundation for:
 - Edge-device biometric processing
 - Healthcare anomaly detection research
 - ML-based health monitoring pipelines
+
 
 
