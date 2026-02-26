@@ -1,0 +1,21 @@
+:root { font-family: system-ui, Arial, sans-serif; }
+body { margin: 0; background: #0b0f14; color: #e6edf3; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px; }
+.header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+h1 { margin: 0; font-size: 20px; letter-spacing: 0.08em; }
+.time { opacity: 0.8; font-variant-numeric: tabular-nums; }
+
+.grid { margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.card { background: #121a24; border: 1px solid #1f2a37; border-radius: 14px; padding: 18px; }
+.label { opacity: 0.75; letter-spacing: 0.08em; font-size: 12px; }
+.value { font-size: 44px; font-variant-numeric: tabular-nums; margin-top: 6px; }
+.unit { opacity: 0.7; margin-top: 4px; }
+
+.value.good { color: #22c55e; }
+.value.warn { color: #f59e0b; }
+.value.bad  { color: #ef4444; }
+
+.footer { margin-top: 16px; display: flex; align-items: center; gap: 10px; opacity: 0.9; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: #64748b; }
+.status-dot.ok { background: #22c55e; }
+.status-dot.err { background: #ef4444; }

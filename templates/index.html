@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Live Patient Monitor</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <h1>LIVE PATIENT MONITOR</h1>
+      <div class="time" id="time">--</div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <div class="label">HR</div>
+        <div class="value" id="hr">--</div>
+        <div class="unit">bpm</div>
+      </div>
+
+      <div class="card">
+        <div class="label">SpO2</div>
+        <div class="value" id="spo2">--</div>
+        <div class="unit">%</div>
+      </div>
+
+      <div class="card">
+        <div class="label">RR</div>
+        <div class="value" id="rr">--</div>
+        <div class="unit">bpm</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Temp</div>
+        <div class="value" id="temp">--</div>
+        <div class="unit">°F</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span class="status-dot" id="dot"></span>
+      <span id="status">Connecting…</span>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
