@@ -65,7 +65,10 @@ def color_temp(t):
 def render():
     clear_screen()
 
+    current_time = time.strftime("%a %b %d, %Y  %I:%M:%S %p")
+
     print("=== LIVE PATIENT MONITOR ===\n")
+    print(f"Time: {current_time}\n")
 
     print(f"{color_hr(currHR)}HR   : {currHR:3} bpm{C.RESET}")
     print(f"{color_ox(currOx)}SpO2 : {currOx:4}%{C.RESET}")
