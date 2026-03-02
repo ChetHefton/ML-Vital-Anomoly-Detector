@@ -2,9 +2,9 @@
 
 This project is a Python-based prototype for real-time vital sign monitoring and future machine learning–driven anomaly detection.
 
-The current version simulates biometric data and delivers it through both a console interface and a lightweight web dashboard. The system is being structured to support future integration of real sensor data and time-series analysis models.
+The system now integrates historical physiological waveform data from PhysioNet using the WFDB library. Instead of fully simulated signals, the platform streams real ECG data from the MIT-BIH Arrhythmia Database and derives physiological metrics from those records in real time.
 
-No real patient data is used.
+No real patient-identifiable data is used. All datasets are publicly available, anonymized research records.
 
 ---
 
@@ -12,13 +12,14 @@ No real patient data is used.
 
 The long-term objective is to build a modular pipeline capable of:
 
-- Streaming biometric signals in real time
+- Streaming physiological signals in real time
 - Establishing physiological baselines
 - Detecting abnormal patterns using statistical and machine learning methods
 - Supporting edge-device deployment (e.g., Raspberry Pi)
-- Providing visualization for monitoring and research validation
+- Providing waveform visualization for monitoring and research validation
+- Training time-series ML models using real biomedical datasets
 
-At this stage, the focus is on architecture, data flow, and extensibility rather than model training.
+At this stage, the focus is on clean architecture, realistic signal flow, and preparing structured data suitable for future ML ingestion.
 
 ---
 
@@ -26,18 +27,34 @@ At this stage, the focus is on architecture, data flow, and extensibility rather
 
 The system currently:
 
-- Simulates vital signs:
-  - Heart Rate (HR)
+- Streams real ECG waveform data from PhysioNet (MIT-BIH database)
+- Uses WFDB to load and process historical biomedical records
+- Derives heart rate (HR) from ECG signals
+- Implements ECG-Derived Respiration (EDR) for respiratory rate (RR) estimation
+- Simulates additional vitals:
   - Oxygen Saturation (SpO₂)
-  - Respiratory Rate (RR)
   - Temperature
-- Updates values continuously to mimic live sensor behavior
-- Exposes a REST API that streams the latest readings
-- Displays a live web dashboard built with Flask
-- Provides a console-based monitor for debugging and development
-- Maintains modular separation between data generation, processing, and presentation
+- Provides live waveform visualization in a web dashboard:
+  - ECG waveform (HR)
+  - Derived respiration waveform (RR)
+- Exposes a REST API endpoint for real-time vital streaming
+- Maintains modular separation between signal ingestion, processing, and presentation
 
-This establishes the foundation needed for future anomaly detection work.
+This creates a realistic physiological signal pipeline suitable for future anomaly detection modeling.
+
+---
+
+## Data Source
+
+This project uses:
+
+- MIT-BIH Arrhythmia Database
+- Accessed via the WFDB Python library
+- Downloaded from PhysioNet
+
+These records contain anonymized historical ECG data and are widely used in biomedical signal processing research.
+
+The system reads raw ECG waveforms and processes them to generate derived physiological metrics in real time.
 
 ---
 
@@ -46,29 +63,52 @@ This establishes the foundation needed for future anomaly detection work.
 ```
 pi5_Files/
 │
-├── app.py                # Flask server and live update loop
-├── base.py               # Console monitoring interface
+├── app.py                      # Flask server and real-time update loop
+├── base.py                     # Console monitoring interface
 │
-├── hr.py                 # Heart rate simulation logic
-├── ox.py                 # Oxygen simulation logic
-├── respRate.py           # Respiratory rate simulation logic
-├── temp.py               # Temperature simulation logic
+├── data/
+│   ├── raw/mitdb/              # PhysioNet MIT-BIH records
+│   └── physionet_hr_stream.py  # HR streaming logic from ECG
+│
+├── monitors/
+│   ├── ox.py                   # Oxygen simulation logic
+│   ├── respRate.py             # Respiration utilities
+│   └── temp.py                 # Temperature simulation logic
 │
 ├── templates/
-│   └── index.html        # Web dashboard layout
+│   └── index.html              # Web dashboard layout
 │
 ├── static/
-│   ├── app.js            # Frontend polling and UI updates
-│   └── style.css         # Dashboard styling
+│   ├── app.js                  # Frontend polling and waveform rendering
+│   └── style.css               # Dashboard styling
 │
-└── .venv/                # Local virtual environment
+├── scripts/
+│   └── download_mitdb.py       # Dataset download helper
+│
+└── .venv/                      # Local virtual environment
 ```
 
-Additional scripts in the repository represent earlier experiments and hardware abstractions and may be refactored or removed as the architecture stabilizes.
+Older experimental scripts and hardware abstraction layers remain in the repository and may be refactored as the architecture stabilizes.
 
 ---
 
 ## How to Run
+
+### First-Time Setup (one time only)
+
+Download the MIT-BIH dataset from PhysioNet:
+
+```
+python scripts/download_mitdb.py
+```
+
+This will populate:
+
+```
+data/raw/mitdb/
+```
+
+---
 
 ### 1. Create a Virtual Environment
 
@@ -88,8 +128,10 @@ python -m venv .venv
 
 ```
 python -m pip install --upgrade pip
-pip install flask
+pip install flask wfdb numpy
 ```
+
+---
 
 ### 4. Start the Web Dashboard
 
@@ -103,13 +145,21 @@ Open a browser and navigate to:
 http://127.0.0.1:5000
 ```
 
+You will see:
+
+- Live ECG waveform
+- Derived respiration waveform
+- Current HR, RR, SpO₂, and temperature values
+
+---
+
 ### 5. (Optional) Run the Console Monitor
 
 ```
 python base.py
 ```
 
-The console version is primarily used for validating data flow during development.
+The console version is primarily used to validate data flow and derived metrics during development.
 
 ---
 
@@ -117,10 +167,11 @@ The console version is primarily used for validating data flow during developmen
 
 The active development priorities are:
 
-- Preparing a clean time-series pipeline suitable for ML ingestion
-- Ensuring modular sensor abstraction for real hardware integration
-- Designing data structures compatible with anomaly detection models
-- Avoiding UI-heavy complexity in favor of analyzable data flow
+- Maintaining a clean time-series data pipeline
+- Using real biomedical datasets for model preparation
+- Structuring signals for sliding-window ML ingestion
+- Ensuring compatibility with future anomaly detection models
+- Keeping UI lightweight while prioritizing signal integrity
 
 ---
 
@@ -128,24 +179,28 @@ The active development priorities are:
 
 Future stages will introduce:
 
-- Sliding-window feature extraction
+- Sliding-window feature extraction from ECG and EDR
 - Baseline modeling per vital stream
 - Statistical anomaly detection
-- Sequence modeling for physiological drift detection
-- Evaluation using anonymized or synthetic datasets
+- Frequency-domain respiration analysis
+- Sequence modeling (LSTM / Transformer-based approaches)
+- Drift detection across physiological signals
+- Offline training using historical PhysioNet records
+- Real-time inference integration into the streaming loop
 
-The system is being structured so models can be introduced without rewriting the data pipeline.
+The architecture is intentionally modular so models can be inserted without restructuring the signal pipeline.
 
 ---
 
 ## Data Policy
 
-This project currently uses simulated data only.
+This project uses:
 
-Future datasets will be:
-- Anonymized
-- Non-identifiable
-- Used strictly for research and modeling purposes
+- Publicly available, anonymized biomedical research datasets
+- No personally identifiable health data
+- No live patient streaming
+
+All data usage complies with PhysioNet’s research access policies.
 
 ---
 
@@ -155,8 +210,9 @@ This architecture is being designed as a foundation for:
 
 - Edge-based health monitoring systems
 - Continuous biometric analysis platforms
-- Research prototypes for physiological anomaly detection
-- Machine learning pipelines operating on streaming medical signals
+- Biomedical signal research prototypes
+- ML-driven physiological anomaly detection systems
+- Real-time inference engines operating on streaming medical signals
 
 ---
 
@@ -164,13 +220,16 @@ This architecture is being designed as a foundation for:
 
 | Component | Status |
 |----------|--------|
-Simulation Engine | Implemented |
+PhysioNet Integration | Implemented |
+WFDB Signal Processing | Implemented |
+ECG Waveform Streaming | Implemented |
+EDR Respiration Derivation | Implemented |
 Flask Dashboard | Implemented |
-Data Streaming API | Implemented |
-Sensor Integration | Planned |
-ML Pipeline | In Design |
+Waveform Visualization | Implemented |
+Sensor Integration (Hardware) | Planned |
+ML Training Pipeline | In Design |
 Anomaly Detection Models | Not Yet Implemented |
 
 ---
 
-This repository represents an early-stage research and engineering prototype rather than a finished product. The emphasis is on building a reliable pipeline that can support meaningful anomaly detection experimentation in later phases.
+This repository represents an evolving research prototype focused on building a realistic physiological signal pipeline using real biomedical data. The current phase establishes a strong foundation for meaningful anomaly detection experimentation and future machine learning integration.
