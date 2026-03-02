@@ -1,5 +1,7 @@
 # Vital Monitoring and ML Anomaly Detection (Work in Progress)
 
+<img width="1271" height="808" alt="Image" src="https://github.com/user-attachments/assets/c2073023-82fe-4764-b7f0-0d08060fb3d0" />
+
 This project is a Python-based prototype for real-time vital sign monitoring and future machine learning–driven anomaly detection.
 
 The system now integrates historical physiological waveform data from PhysioNet using the WFDB library. Instead of fully simulated signals, the platform streams real ECG data from the MIT-BIH Arrhythmia Database and derives physiological metrics from those records in real time.
@@ -231,5 +233,6 @@ ML Training Pipeline | In Design |
 Anomaly Detection Models | Not Yet Implemented |
 
 ---
+
 
 This repository represents an evolving research prototype focused on building a realistic physiological signal pipeline using real biomedical data. The current phase establishes a strong foundation for meaningful anomaly detection experimentation and future machine learning integration.
