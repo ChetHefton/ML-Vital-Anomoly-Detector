@@ -1,6 +1,6 @@
 # Vital Monitoring and ML Anomaly Detection (Work in Progress)
 
-<img width="1271" height="808" alt="Image" src="https://github.com/user-attachments/assets/c2073023-82fe-4764-b7f0-0d08060fb3d0" />
+![Vital Monitoring Demo](demo_imgs/MLvitalDemo1.png)
 
 This project is a Python-based prototype for real-time vital sign monitoring and future machine learning–driven anomaly detection.
 
@@ -236,3 +236,4 @@ Anomaly Detection Models | Not Yet Implemented |
 
 
 This repository represents an evolving research prototype focused on building a realistic physiological signal pipeline using real biomedical data. The current phase establishes a strong foundation for meaningful anomaly detection experimentation and future machine learning integration.
+
