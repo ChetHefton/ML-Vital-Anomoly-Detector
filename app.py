@@ -3,10 +3,10 @@ import threading
 import time
 import random
 
-import hr
-import ox
-import respRate
-import temp
+from monitors import hr
+from monitors import ox
+from monitors import respRate
+from monitors import temp
 
 app = Flask(__name__)
 

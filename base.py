@@ -1,8 +1,8 @@
-import hr
-import motion
-import ox
-import respRate
-import temp
+from monitors import hr
+from monitors import motion
+from monitors import ox
+from monitors import respRate
+from monitors import temp
 import time
 import random
 from collections import deque
